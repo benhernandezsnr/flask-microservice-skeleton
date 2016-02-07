@@ -1,0 +1,23 @@
+web:
+  build: .
+  command: python manage.py runserver
+  working_dir: /code
+  ports:
+    - "5000:5000"
+  volumes:
+    - .:/code
+  links:
+    - db
+  hostname: myappserver
+  environment:
+    APP_SETTINGS: project.server.config.DevelopmentConfig
+db:
+  hostname: mysql_master
+  image: mysql
+  ports:
+    - 3306:3306
+  environment:
+     MYSQL_ROOT_PASSWORD: root
+     MYSQL_DATABASE: {{cookiecutter.db_name}}
+     MYSQL_USER: dev
+     MYSQL_PASSWORD: test
